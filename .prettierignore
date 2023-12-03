@@ -1,5 +1,3 @@
 .gitignore
 package.json
 package-lock.json
-output/
-.github/
