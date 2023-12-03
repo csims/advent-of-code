@@ -25,7 +25,7 @@ const numberMap: Record<string, number> = {
   nine: 9
 }
 
-export const day1 = (input: string, transformNumbers = false): number => {
+export const day1 = (input: string, parseWords = false): number => {
   const rawLines = input.split('\n').filter(l => !!l)
 
   const regex = new RegExp(`^(${Object.keys(numberMap).join('|')}|[\\d])`)
@@ -35,12 +35,13 @@ export const day1 = (input: string, transformNumbers = false): number => {
 
     for (let i = 0; i < line.length; i++) {
       const matches = line.slice(i).match(regex)
+
       if (matches) {
         const match = matches[0]
 
         if (isNumber(match)) {
           lineNumbers.push(Number.parseInt(match, 10))
-        } else if (transformNumbers) {
+        } else if (parseWords) {
           lineNumbers.push(numberMap[match])
         }
       }
