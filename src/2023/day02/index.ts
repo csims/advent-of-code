@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/2
 
-import { parseLines } from '../../utils'
+import { parseLines, sum } from '../../utils'
 
 export type Cubes = {
   readonly red: number
@@ -79,5 +79,5 @@ export const part2 = (input: string): number => {
     return minCubes.red * minCubes.green * minCubes.blue
   })
 
-  return cubePowers.reduce((prev, curr) => prev + curr, 0)
+  return sum(cubePowers)
 }

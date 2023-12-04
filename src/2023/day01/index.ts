@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/1
 
-import { parseLines } from '../../utils'
+import { parseLines, sum } from '../../utils'
 
 /**
  * Part 1:
@@ -54,5 +54,5 @@ export const day1 = (input: string, parseWords = false): number => {
     return Number.parseInt(`${first}${last}`, 10)
   })
 
-  return values.reduce((prev, curr) => prev + curr, 0)
+  return sum(values)
 }
