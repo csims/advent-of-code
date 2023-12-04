@@ -1,5 +1,7 @@
 // https://adventofcode.com/2023/day/2
 
+import { parseLines } from '../../utils'
+
 export type Cubes = {
   readonly red: number
   readonly green: number
@@ -34,10 +36,7 @@ const parseGame = (line: string): Game => {
   }
 }
 
-const getGames = (input: string): Game[] => {
-  const lines = input.split('\n').filter(l => !!l)
-  return lines.map(parseGame)
-}
+const getGames = (input: string): Game[] => parseLines(input).map(parseGame)
 
 /**
  * Part 1:

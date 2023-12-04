@@ -1,5 +1,7 @@
 // https://adventofcode.com/2023/day/1
 
+import { parseLines } from '../../utils'
+
 /**
  * Part 1:
  * Input has lines of text.
@@ -26,7 +28,7 @@ const numberMap: Record<string, number> = {
 }
 
 export const day1 = (input: string, parseWords = false): number => {
-  const rawLines = input.split('\n').filter(l => !!l)
+  const rawLines = parseLines(input)
 
   const regex = new RegExp(`^(${Object.keys(numberMap).join('|')}|[\\d])`)
 
