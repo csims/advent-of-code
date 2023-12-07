@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Test:
+  CI:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,3 +26,5 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
+      - name: Type-check
+        run: npm run type-check
