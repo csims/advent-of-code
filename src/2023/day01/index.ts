@@ -1,6 +1,7 @@
 // https://adventofcode.com/2023/day/1
 
-import { parseLines, sum } from '../../utils'
+import { sum } from '../../utils/array'
+import { parseLines } from '../../utils/helpers'
 
 /**
  * Part 1:

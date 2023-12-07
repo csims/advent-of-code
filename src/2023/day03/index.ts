@@ -1,6 +1,7 @@
 // https://adventofcode.com/2023/day/3
 
-import { isDefined, parseLines, sum } from '../../utils'
+import { sum } from '../../utils/array'
+import { isDefined, parseLines } from '../../utils/helpers'
 
 type PartNumber = {
   readonly number: number
