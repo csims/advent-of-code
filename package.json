@@ -5,8 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "prettier:check": "prettier -c .",
-    "prettier:fix": "prettier -w .",
+    "biome:check": "biome check",
+    "biome:fix": "biome check --fix --unsafe",
     "test": "vitest",
     "type-check": "tsc"
   },

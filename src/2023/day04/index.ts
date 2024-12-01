@@ -1,8 +1,8 @@
 // https://adventofcode.com/2023/day/4
 
-import { intersection } from '../../utils/set'
 import { sum } from '../../utils/array'
 import { parseLines } from '../../utils/helpers'
+import { intersection } from '../../utils/set'
 
 type Card = {
   winningNumbers: Set<number>
@@ -13,7 +13,7 @@ const parseNumbers = (str = ''): Set<number> => {
   const numbers = str
     .trim()
     .split(/\s+/g)
-    .map(num => parseInt(num, 10))
+    .map(num => Number.parseInt(num, 10))
 
   return new Set(numbers)
 }
@@ -39,7 +39,7 @@ export const part1 = (input: string): number => {
   const cards = lines.map(parseCard)
   const points: number[] = cards.map(card => {
     const matchingNumbers = intersection(card.winningNumbers, card.myNumbers)
-    return matchingNumbers.size ? Math.pow(2, matchingNumbers.size - 1) : 0
+    return matchingNumbers.size ? 2 ** (matchingNumbers.size - 1) : 0
   })
 
   return sum(points)
@@ -58,7 +58,7 @@ export const part2 = (input: string): number => {
   const matchingNumberCounts = cards.map(
     card => intersection(card.winningNumbers, card.myNumbers).size
   )
-  let cardCopies = new Array(cards.length).fill(1)
+  const cardCopies = new Array(cards.length).fill(1)
 
   matchingNumberCounts.forEach((matchingCounts, cardIdx) => {
     const offsetsToCopy = [...Array(matchingCounts + 1).keys()].slice(1)

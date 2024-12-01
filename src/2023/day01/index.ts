@@ -34,7 +34,7 @@ export const day1 = (input: string, parseWords = false): number => {
   const regex = new RegExp(`^(${Object.keys(numberMap).join('|')}|[\\d])`)
 
   const values: number[] = rawLines.map(line => {
-    let lineNumbers: number[] = []
+    const lineNumbers: number[] = []
 
     for (let i = 0; i < line.length; i++) {
       const matches = line.slice(i).match(regex)
