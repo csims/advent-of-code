@@ -19,7 +19,7 @@ type PartMapping = Star & {
   readonly partNumbers: number[]
 }
 
-type RegExpWithIndex = RegExpMatchArray & { index: number }
+type RegExpWithIndex = RegExpExecArray & { index: number }
 
 const getNumbersForLine = (line: string, lineNumber: number): PartNumber[] => {
   const matches = [...line.matchAll(/\d+/g)]
