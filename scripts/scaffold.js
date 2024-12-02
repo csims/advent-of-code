@@ -5,7 +5,7 @@ const args = process.argv.slice(2)
 const year = new Date().getFullYear().toString()
 const day = Number(args[0])
 
-if (!day || day < 1 || day > 31) {
+if (!day || day < 1 || day > 25) {
   console.error('Invalid day')
   process.exit(1)
 }
