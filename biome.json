@@ -25,6 +25,6 @@
     "enabled": true
   },
   "files": {
-    "include": ["index.js", "src/**"]
+    "include": ["index.js", "src/**", "scripts/**"]
   }
 }
