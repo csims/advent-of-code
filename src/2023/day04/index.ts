@@ -2,7 +2,6 @@
 
 import { sum } from '../../utils/array'
 import { parseLines } from '../../utils/helpers'
-import { intersection } from '../../utils/set'
 
 type Card = {
   winningNumbers: Set<number>
@@ -37,8 +36,8 @@ const parseCard = (line: string): Card => {
 export const part1 = (input: string): number => {
   const lines = parseLines(input)
   const cards = lines.map(parseCard)
-  const points: number[] = cards.map(card => {
-    const matchingNumbers = intersection(card.winningNumbers, card.myNumbers)
+  const points: number[] = cards.map(({ winningNumbers, myNumbers }) => {
+    const matchingNumbers = winningNumbers.intersection(myNumbers)
     return matchingNumbers.size ? 2 ** (matchingNumbers.size - 1) : 0
   })
 
@@ -56,7 +55,8 @@ export const part2 = (input: string): number => {
   const lines = parseLines(input)
   const cards = lines.map(parseCard)
   const matchingNumberCounts = cards.map(
-    card => intersection(card.winningNumbers, card.myNumbers).size
+    ({ winningNumbers, myNumbers }) =>
+      winningNumbers.intersection(myNumbers).size
   )
   const cardCopies = new Array(cards.length).fill(1)
 
