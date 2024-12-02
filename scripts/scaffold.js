@@ -17,12 +17,23 @@ fs.mkdirSync(fullPath, { recursive: true })
 
 const files = fs.readdirSync(fullPath)
 
+const testScaffold = `
+import { readFileSync } from 'node:fs'
+
+test('part 1', () => {
+  const exampleInput = readFileSync(\`\${__dirname}/inputExample.txt\`, 'utf-8')
+
+  const input = readFileSync(\`\${__dirname}/input.txt\`, 'utf-8')
+})
+
+`
+
 if (!files.length) {
   fs.writeFileSync(
     path.join(fullPath, 'index.ts'),
     `// https://adventofcode.com/${year}/day/${day}`
   )
-  fs.writeFileSync(path.join(fullPath, `${dayDir}.test.ts`), '')
+  fs.writeFileSync(path.join(fullPath, `${dayDir}.test.ts`), testScaffold)
   fs.writeFileSync(path.join(fullPath, 'input.txt'), '')
   fs.writeFileSync(path.join(fullPath, 'inputExample.txt'), '')
 } else {
