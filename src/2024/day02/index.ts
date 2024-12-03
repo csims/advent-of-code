@@ -6,10 +6,7 @@ const isSafe = (report: number[]) => {
   const levelDiffs: number[] = []
 
   report.forEach((level, idx) => {
-    if (idx === 0) {
-      return
-    }
-    levelDiffs.push(level - report[idx - 1])
+    idx > 0 && levelDiffs.push(level - report[idx - 1])
   })
 
   const allIncreasing = levelDiffs.every(diff => diff > 0 && diff <= 3)
@@ -41,11 +38,9 @@ export const part2 = (input: string) => {
   const reports = parseLines(input).map(splitNumbers)
 
   return reports.reduce((count: number, report) => {
-    const anySafe = report.some((_level, idx) => {
-      const modifiedReport = [...report]
-      modifiedReport.splice(idx, 1)
-      return isSafe(modifiedReport)
-    })
+    const anySafe = report.some((_level, idx) =>
+      isSafe(report.toSpliced(idx, 1))
+    )
     return anySafe ? count + 1 : count
   }, 0)
 }

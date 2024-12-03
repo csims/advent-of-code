@@ -1,6 +1,6 @@
 // https://adventofcode.com/2024/day/1
 
-import { sum } from '../../utils/array'
+import { countOccurrences, sum } from '../../utils/array'
 import { parseLines } from '../../utils/helpers'
 
 const parseLists = (input: string) => {
@@ -44,15 +44,8 @@ export const part1 = (input: string) => {
  */
 export const part2 = (input: string) => {
   const [list1, list2] = parseLists(input)
+  const list2Counts = countOccurrences(list2)
   const similarities: number[] = []
-
-  const list2Counts = list2.reduce(
-    (acc: Record<number, number>, curr: number) => {
-      acc[curr] = acc[curr] ? acc[curr] + 1 : 1
-      return acc
-    },
-    {}
-  )
 
   list1.forEach(num => {
     const similarity = list2Counts[num] ? num * list2Counts[num] : 0

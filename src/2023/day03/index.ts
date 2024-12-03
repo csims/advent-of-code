@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/3
 
-import { sum } from '../../utils/array'
+import { product, sum } from '../../utils/array'
 import { isDefined, parseLines } from '../../utils/helpers'
 
 type PartNumber = {
@@ -115,9 +115,7 @@ export const part2 = (input: string): number => {
   }, [])
 
   const gears = partMappings.filter(mapping => mapping.partNumbers.length === 2)
-  const gearRatios: number[] = gears.map(gear =>
-    gear.partNumbers.reduce((prev, curr) => prev * curr, 1)
-  )
+  const gearRatios: number[] = gears.map(gear => product(gear.partNumbers))
 
   return sum(gearRatios)
 }
