@@ -14,6 +14,9 @@ export const countOccurrences = (arr: Array<string | number>) => {
 }
 
 export const zip = <T, V>(a: T[], b: V[]): [T, V][] => {
+  if (a.length !== b.length) {
+    throw new Error('Array lengths must be equal')
+  }
   return a.map((x, idx) => [x, b[idx]])
 }
 

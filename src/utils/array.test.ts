@@ -28,16 +28,13 @@ test('zip', () => {
     [2, 5],
     [3, 6]
   ])
-  // probably not ideal but whatever
-  expect(zip([1], [2, 3])).toEqual([[1, 2]])
-  expect(zip([1, 2], [3])).toEqual([
-    [1, 3],
-    [2, undefined]
-  ])
+  expect(() => zip([1], [2, 3])).toThrow()
+  expect(() => zip([1, 2], [3])).toThrow()
 })
 
 test('unzip', () => {
   expect(unzip([])).toEqual([[], []])
+  expect(unzip([[1, 2]])).toEqual([[1], [2]])
   expect(
     unzip([
       [1, 4],
@@ -47,15 +44,5 @@ test('unzip', () => {
   ).toEqual([
     [1, 2, 3],
     [4, 5, 6]
-  ])
-  expect(unzip([[1, 2]])).toEqual([[1], [2]])
-  expect(
-    unzip([
-      [1, 3],
-      [2, undefined]
-    ])
-  ).toEqual([
-    [1, 2],
-    [3, undefined]
   ])
 })
