@@ -1,7 +1,8 @@
 // https://adventofcode.com/2024/day/1
 
-import { countOccurrences, sum } from '../../utils/array'
+import { countOccurrences, sum, zip } from '../../utils/array'
 import { parseLines } from '../../utils/helpers'
+import { difference } from '../../utils/number'
 
 const parseLists = (input: string) => {
   const rawLines = parseLines(input)
@@ -27,14 +28,9 @@ export const part1 = (input: string) => {
   const [list1, list2] = parseLists(input)
   const list1Sorted = list1.toSorted()
   const list2Sorted = list2.toSorted()
-  const diffs: number[] = []
+  const zipped = zip(list1Sorted, list2Sorted)
 
-  list1Sorted.forEach((num, idx) => {
-    const diff = Math.abs(num - list2Sorted[idx])
-    diffs.push(diff)
-  })
-
-  return sum(diffs)
+  return sum(zipped.map(x => difference(...x)))
 }
 
 /**
@@ -48,7 +44,7 @@ export const part2 = (input: string) => {
   const similarities: number[] = []
 
   list1.forEach(num => {
-    const similarity = list2Counts[num] ? num * list2Counts[num] : 0
+    const similarity = (list2Counts[num] || 0) * num
     similarities.push(similarity)
   })
 

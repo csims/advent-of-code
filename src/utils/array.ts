@@ -12,3 +12,19 @@ export const countOccurrences = (arr: Array<string | number>) => {
     return acc
   }, initial)
 }
+
+export const zip = <T, V>(a: T[], b: V[]): [T, V][] => {
+  return a.map((x, idx) => [x, b[idx]])
+}
+
+export const unzip = <T, V>(tuples: [T, V][]): [T[], V[]] => {
+  const arr1: T[] = []
+  const arr2: V[] = []
+
+  tuples.forEach(([a, b]) => {
+    arr1.push(a)
+    arr2.push(b)
+  })
+
+  return [arr1, arr2]
+}
