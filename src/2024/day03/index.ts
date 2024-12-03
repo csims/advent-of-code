@@ -20,6 +20,11 @@ const parseInstructions = (input: string) => {
   })
 }
 
+/**
+ * Part 1:
+ * Parse all mul() instructions from the input, compute the products,
+ * and return the sum of all products.
+ */
 export const part1 = (input: string) => {
   const lines = parseLines(input)
   const instructions = lines.flatMap(parseInstructions)
@@ -27,6 +32,12 @@ export const part1 = (input: string) => {
   return sum(products)
 }
 
+/**
+ * Part 2:
+ * Same as part 1, but also parse do() and don't() instructions.
+ * Ignore any mul() instructions after a don't() instruction until the next
+ * do() instruction.
+ */
 export const part2 = (input: string) => {
   const lines = parseLines(input)
   const instructions = lines.flatMap(parseInstructions)
