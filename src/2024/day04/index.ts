@@ -50,6 +50,7 @@ const findPart1Count = (x: number, y: number, grid: string[][]) => {
   return matches.filter(m => !!m).length
 }
 
+// this is also dumb
 const isPart2Match = (x: number, y: number, grid: string[][]) => {
   const word = ['M', 'A', 'S']
 
@@ -74,6 +75,8 @@ const isPart2Match = (x: number, y: number, grid: string[][]) => {
 
 /**
  * Part 1:
+ * In a grid of letters, find all instances of "XMAS" in any direction
+ * (up, down, diagonal, reversed)
  */
 export const part1 = (input: string) => {
   const lines = parseLines(input)
@@ -91,6 +94,8 @@ export const part1 = (input: string) => {
 
 /**
  * Part 2:
+ * In a grid of letters, find all instances of "MAS" in an X shape
+ * (forwards or backwards)
  */
 export const part2 = (input: string) => {
   const lines = parseLines(input)
