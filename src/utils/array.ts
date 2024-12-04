@@ -31,3 +31,11 @@ export const unzip = <T, V>(tuples: [T, V][]): [T[], V[]] => {
 
   return [arr1, arr2]
 }
+
+export const range = (start: number, stop: number) => {
+  if (!Number.isInteger(start) || !Number.isInteger(stop)) {
+    throw new Error('start and stop must be integers')
+  }
+  const len = stop - start
+  return Array.from(Array(len).keys()).map(x => x + start)
+}
