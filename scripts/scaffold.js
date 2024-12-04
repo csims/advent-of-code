@@ -19,20 +19,48 @@ const files = fs.readdirSync(fullPath)
 
 const testScaffold = `
 import { readFileSync } from 'node:fs'
+import { part1, part2 } from '.'
 
 test('part 1', () => {
   const exampleInput = readFileSync(\`\${__dirname}/inputExample.txt\`, 'utf-8')
+  expect(part1(exampleInput)).toEqual(0)
 
   const input = readFileSync(\`\${__dirname}/input.txt\`, 'utf-8')
+  // expect(part1(input)).toEqual(0)
+})
+
+test('part 2', () => {
+  const exampleInput = readFileSync(\`\${__dirname}/inputExample.txt\`, 'utf-8')
+  // expect(part2(exampleInput)).toEqual(0)
+
+  const input = readFileSync(\`\${__dirname}/input.txt\`, 'utf-8')
+  // expect(part2(input)).toEqual(0)
 })
 
 `
 
+const codeScaffold = `
+// https://adventofcode.com/${year}/day/${day}
+
+import { parseLines } from '../../utils/helpers'
+
+/**
+ * Part 1:
+ */
+export const part1 = (input: string) => {
+  const lines = parseLines(input)
+}
+
+/**
+ * Part 2:
+ */
+export const part2 = (input: string) => {
+  const lines = parseLines(input)
+}
+`
+
 if (!files.length) {
-  fs.writeFileSync(
-    path.join(fullPath, 'index.ts'),
-    `// https://adventofcode.com/${year}/day/${day}`
-  )
+  fs.writeFileSync(path.join(fullPath, 'index.ts'), codeScaffold)
   fs.writeFileSync(path.join(fullPath, `${dayDir}.test.ts`), testScaffold)
   fs.writeFileSync(path.join(fullPath, 'input.txt'), '')
   fs.writeFileSync(path.join(fullPath, 'inputExample.txt'), '')
