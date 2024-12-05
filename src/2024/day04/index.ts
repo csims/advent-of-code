@@ -9,68 +9,44 @@ const getAtCoord = (x: number, y: number, grid: string[][]) => {
   return grid[x]?.[y]
 }
 
-// wow this is dumb
 const findPart1Count = (x: number, y: number, grid: string[][]) => {
   const word = ['X', 'M', 'A', 'S']
-
-  const matchesN = word.every(
-    (letter, i) => getAtCoord(x, y - i, grid) === letter
-  )
-  const matchesS = word.every(
-    (letter, i) => getAtCoord(x, y + i, grid) === letter
-  )
-  const matchesW = word.every(
-    (letter, i) => getAtCoord(x - i, y, grid) === letter
-  )
-  const matchesE = word.every(
-    (letter, i) => getAtCoord(x + i, y, grid) === letter
-  )
-  const matchesNW = word.every(
-    (letter, i) => getAtCoord(x - i, y - i, grid) === letter
-  )
-  const matchesNE = word.every(
-    (letter, i) => getAtCoord(x + i, y - i, grid) === letter
-  )
-  const matchesSW = word.every(
-    (letter, i) => getAtCoord(x - i, y + i, grid) === letter
-  )
-  const matchesSE = word.every(
-    (letter, i) => getAtCoord(x + i, y + i, grid) === letter
-  )
-  const matches = [
-    matchesN,
-    matchesS,
-    matchesW,
-    matchesE,
-    matchesNW,
-    matchesNE,
-    matchesSW,
-    matchesSE
+  const directions = [
+    [0, -1], // N
+    [0, 1], // S
+    [-1, 0], // W
+    [1, 0], // E
+    [-1, -1], // NW
+    [-1, 1], // NE
+    [1, -1], // SW
+    [1, 1] // SE
   ]
+
+  const matches = directions.map(d =>
+    word.every(
+      (letter, i) => getAtCoord(x + d[0] * i, y + d[1] * i, grid) === letter
+    )
+  )
+
   return matches.filter(m => !!m).length
 }
 
-// this is also dumb
 const isPart2Match = (x: number, y: number, grid: string[][]) => {
   const word = ['M', 'A', 'S']
 
-  const matches1Forwards = word.every(
-    (letter, i) => getAtCoord(x + i - 1, y + i - 1, grid) === letter
-  )
-  const matches1Backwards = word
-    .toReversed()
-    .every((letter, i) => getAtCoord(x + i - 1, y + i - 1, grid) === letter)
-  const matches2Forwards = word.every(
-    (letter, i) => getAtCoord(x - i + 1, y + i - 1, grid) === letter
-  )
-  const matches2Backwards = word
-    .toReversed()
-    .every((letter, i) => getAtCoord(x - i + 1, y + i - 1, grid) === letter)
+  // check the \ diagonal
+  const checkDiagonal1 = (letter: string, i: number) =>
+    getAtCoord(x + i - 1, y + i - 1, grid) === letter
+  // check the / diagonal
+  const checkDiagonal2 = (letter: string, i: number) =>
+    getAtCoord(x - i + 1, y + i - 1, grid) === letter
 
-  return (
-    (matches1Forwards || matches1Backwards) &&
-    (matches2Forwards || matches2Backwards)
-  )
+  const matchesDiagonal1 =
+    word.every(checkDiagonal1) || word.toReversed().every(checkDiagonal1)
+  const matchesDiagonal2 =
+    word.every(checkDiagonal2) || word.toReversed().every(checkDiagonal2)
+
+  return matchesDiagonal1 && matchesDiagonal2
 }
 
 /**
