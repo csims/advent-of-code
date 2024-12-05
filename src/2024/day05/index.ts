@@ -25,10 +25,16 @@ const parseUpdates = (lines: string[]) => {
 
 const validateRule = (pageUpdate: number[], orderingRule: number[]) => {
   const [first, second] = orderingRule
-  const ruleApplies = pageUpdate.includes(first) && pageUpdate.includes(second)
-  const followsRule = pageUpdate.indexOf(first) < pageUpdate.indexOf(second)
+  const firstIndex = pageUpdate.indexOf(first)
+  const secondIndex = pageUpdate.indexOf(second)
+  const ruleApplies = firstIndex >= 0 && secondIndex >= 0
+  const followsRule = firstIndex < secondIndex
 
   return !ruleApplies || followsRule
+}
+
+const isUpdateValid = (update: number[], rules: number[][]) => {
+  return rules.every(rule => validateRule(update, rule))
 }
 
 const getMiddleNumber = (pageUpdate: number[]) =>
@@ -46,11 +52,7 @@ const sortByRule = (rule: number[], pageUpdate: number[]) => {
   })
 }
 
-const isUpdateValid = (update: number[], rules: number[][]) => {
-  return rules.every(rule => validateRule(update, rule))
-}
-
-const sortByRules = (pageUpdate: number[], rules: number[][]) => {
+const sortByRules = (rules: number[][]) => (pageUpdate: number[]) => {
   const sortedUpdate = [...pageUpdate]
 
   while (!isUpdateValid(sortedUpdate, rules)) {
@@ -62,6 +64,11 @@ const sortByRules = (pageUpdate: number[], rules: number[][]) => {
 
 /**
  * Part 1:
+ * Given a list rules (2 number each) and a list of updates, find the updates
+ * that satisfy all rules, grab the middle number from each update, and return
+ * the sum.
+ * If an update contains both numbers of a rule, those numbers must appear in
+ * the order specified in the rule for the update to be valid.
  */
 export const part1 = (input: string) => {
   const lines = parseLines(input)
@@ -76,6 +83,9 @@ export const part1 = (input: string) => {
 
 /**
  * Part 2:
+ * Same as part 1, but instead find the updates that are NOT valid, reorder
+ * them to make them valid, and return the sum of the middle numbers from the
+ * previously invalid updates.
  */
 export const part2 = (input: string) => {
   const lines = parseLines(input)
@@ -84,9 +94,7 @@ export const part2 = (input: string) => {
   const invalidUpdates = pageUpdates.filter(
     update => !isUpdateValid(update, orderingRules)
   )
-  const fixedUpdates = invalidUpdates.map(update =>
-    sortByRules(update, orderingRules)
-  )
+  const fixedUpdates = invalidUpdates.map(sortByRules(orderingRules))
 
   return sum(fixedUpdates.map(getMiddleNumber))
 }
