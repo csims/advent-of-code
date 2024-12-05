@@ -4,13 +4,15 @@ import { sum } from '../../utils/array'
 import { parseLines } from '../../utils/helpers'
 
 const parseUpdates = (lines: string[]) => {
-  const orderingRules: number[][] = []
+  const rules: number[][] = []
+  const ruleSet: Set<string> = new Set()
   const pageUpdates: number[][] = []
 
   lines.forEach(line => {
     if (line.includes('|')) {
       const rule = line.split('|').map(Number)
-      orderingRules.push(rule)
+      rules.push(rule)
+      ruleSet.add(line)
     } else {
       const updates = line.split(',').map(Number)
       pageUpdates.push(updates)
@@ -18,10 +20,13 @@ const parseUpdates = (lines: string[]) => {
   })
 
   return {
-    orderingRules,
+    rules,
+    ruleSet,
     pageUpdates
   }
 }
+
+const formatRule = (a: number, b: number) => `${a}|${b}`
 
 const validateRule = (pageUpdate: number[], orderingRule: number[]) => {
   const [first, second] = orderingRule
@@ -40,26 +45,14 @@ const isUpdateValid = (update: number[], rules: number[][]) => {
 const getMiddleNumber = (pageUpdate: number[]) =>
   pageUpdate[Math.ceil(pageUpdate.length / 2) - 1]
 
-const sortByRule = (rule: number[], pageUpdate: number[]) => {
-  return pageUpdate.sort((a, b) => {
-    if (a === rule[0] && b === rule[1]) {
-      return -1
-    }
-    if (a === rule[1] && b === rule[0]) {
-      return 1
-    }
-    return 0
+const sortByRules = (ruleSet: Set<string>) => (pageUpdate: number[]) => {
+  return pageUpdate.toSorted((a, b) => {
+    return ruleSet.has(formatRule(a, b))
+      ? -1
+      : ruleSet.has(formatRule(b, a))
+        ? 1
+        : 0
   })
-}
-
-const sortByRules = (rules: number[][]) => (pageUpdate: number[]) => {
-  const sortedUpdate = [...pageUpdate]
-
-  while (!isUpdateValid(sortedUpdate, rules)) {
-    rules.forEach(rule => sortByRule(rule, sortedUpdate))
-  }
-
-  return sortedUpdate
 }
 
 /**
@@ -72,10 +65,10 @@ const sortByRules = (rules: number[][]) => (pageUpdate: number[]) => {
  */
 export const part1 = (input: string) => {
   const lines = parseLines(input)
-  const { orderingRules, pageUpdates } = parseUpdates(lines)
+  const { rules, pageUpdates } = parseUpdates(lines)
 
   const validUpdates = pageUpdates.map(update => {
-    return isUpdateValid(update, orderingRules) ? getMiddleNumber(update) : 0
+    return isUpdateValid(update, rules) ? getMiddleNumber(update) : 0
   })
 
   return sum(validUpdates)
@@ -89,12 +82,12 @@ export const part1 = (input: string) => {
  */
 export const part2 = (input: string) => {
   const lines = parseLines(input)
-  const { orderingRules, pageUpdates } = parseUpdates(lines)
+  const { rules, pageUpdates, ruleSet } = parseUpdates(lines)
 
   const invalidUpdates = pageUpdates.filter(
-    update => !isUpdateValid(update, orderingRules)
+    update => !isUpdateValid(update, rules)
   )
-  const fixedUpdates = invalidUpdates.map(sortByRules(orderingRules))
+  const fixedUpdates = invalidUpdates.map(sortByRules(ruleSet))
 
   return sum(fixedUpdates.map(getMiddleNumber))
 }
