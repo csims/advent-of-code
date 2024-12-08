@@ -1,5 +1,6 @@
 // https://adventofcode.com/2024/day/6
 
+import { formatPos, isInBounds, parsePos } from '../../utils/grid'
 import { parseLines } from '../../utils/helpers'
 
 const guardHeadings = ['>', 'v', '<', '^']
@@ -20,10 +21,6 @@ const guardVectors: Record<string, [number, number]> = {
 const getMapSize = (lines: string[]) => {
   return [lines[0].length, lines.length]
 }
-
-const parsePos = (p: string) => p.split('|').map(Number)
-
-const formatPos = (x: number, y: number) => `${x}|${y}`
 
 const formatGuardPos = (guard: Guard) => formatPos(guard.x, guard.y)
 
@@ -49,11 +46,8 @@ const parseMap = (lines: string[]) => {
   }
 }
 
-const isGuardOnMap = (guard: Guard, mapSize: number[]) => {
-  return (
-    guard.x >= 0 && guard.x < mapSize[0] && guard.y >= 0 && guard.y < mapSize[1]
-  )
-}
+const isGuardOnMap = (guard: Guard, mapSize: number[]) =>
+  isInBounds([guard.x, guard.y], mapSize)
 
 const rotateGuard = (guard: Guard) => {
   const newHeadingIndex = guardHeadings.indexOf(guard.heading) + 1
