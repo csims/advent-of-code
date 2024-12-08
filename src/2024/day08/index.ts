@@ -4,7 +4,7 @@ import { formatPos, getGridSize, isInBounds, parsePos } from '../../utils/grid'
 import { parseLines } from '../../utils/helpers'
 
 const parseMap = (lines: string[]) => {
-  const antennas: Record<string, Set<string>> = {}
+  const antennas: Record<string, string[]> = {}
 
   lines.forEach((row, y) => {
     row.split('').forEach((col, x) => {
@@ -12,9 +12,9 @@ const parseMap = (lines: string[]) => {
         return
       }
       if (!antennas[col]) {
-        antennas[col] = new Set()
+        antennas[col] = []
       }
-      antennas[col].add(formatPos([x, y]))
+      antennas[col].push(formatPos([x, y]))
     })
   })
 
@@ -34,7 +34,7 @@ const getAntinodeAtMultiplier = (
   return [x + distX * multiplier, y + distY * multiplier]
 }
 
-const getAllAntinodes = (
+const getHarmonicAntinodes = (
   [x1, y1]: number[],
   [x2, y2]: number[],
   mapSize: number[]
@@ -83,7 +83,7 @@ export const part1 = (input: string) => {
   const allAntinodes: Set<string> = new Set()
 
   Object.entries(antennas).forEach(([_freq, locs]) => {
-    const perms = permutations([...locs].map(parsePos))
+    const perms = permutations(locs.map(parsePos))
 
     perms.forEach(([point1, point2]) => {
       const antinode = getAntinode(point1, point2)
@@ -105,10 +105,10 @@ export const part2 = (input: string) => {
   const allAntinodes: Set<string> = new Set()
 
   Object.entries(antennas).forEach(([_freq, locs]) => {
-    const perms = permutations([...locs].map(parsePos))
+    const perms = permutations(locs.map(parsePos))
 
     perms.forEach(([point1, point2]) => {
-      const antinodes = getAllAntinodes(point1, point2, mapSize)
+      const antinodes = getHarmonicAntinodes(point1, point2, mapSize)
       antinodes.forEach(n => allAntinodes.add(formatPos(n)))
     })
   })
