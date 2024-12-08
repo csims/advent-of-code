@@ -14,7 +14,7 @@ const parseMap = (lines: string[]) => {
       if (!antennas[col]) {
         antennas[col] = new Set()
       }
-      antennas[col].add(formatPos(x, y))
+      antennas[col].add(formatPos([x, y]))
     })
   })
 
@@ -88,7 +88,7 @@ export const part1 = (input: string) => {
     perms.forEach(([point1, point2]) => {
       const antinode = getAntinode(point1, point2)
       const inBounds = isInBounds(antinode, mapSize)
-      inBounds && allAntinodes.add(formatPos(antinode[0], antinode[1]))
+      inBounds && allAntinodes.add(formatPos(antinode))
     })
   })
 
@@ -109,7 +109,7 @@ export const part2 = (input: string) => {
 
     perms.forEach(([point1, point2]) => {
       const antinodes = getAllAntinodes(point1, point2, mapSize)
-      antinodes.forEach(([x, y]) => allAntinodes.add(formatPos(x, y)))
+      antinodes.forEach(n => allAntinodes.add(formatPos(n)))
     })
   })
 

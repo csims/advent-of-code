@@ -17,5 +17,5 @@ test('parsePos', () => {
 })
 
 test('formatPos', () => {
-  expect(formatPos(4, 5)).toEqual('4|5')
+  expect(formatPos([4, 5])).toEqual('4|5')
 })

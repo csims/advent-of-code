@@ -22,7 +22,7 @@ const getMapSize = (lines: string[]) => {
   return [lines[0].length, lines.length]
 }
 
-const formatGuardPos = (guard: Guard) => formatPos(guard.x, guard.y)
+const formatGuardPos = (guard: Guard) => formatPos([guard.x, guard.y])
 
 const guardToString = (guard: Guard) => JSON.stringify(guard)
 
@@ -35,7 +35,7 @@ const parseMap = (lines: string[]) => {
       if (guardHeadings.includes(char)) {
         guard = { x, y, heading: char }
       } else if (char === '#') {
-        obstacles.add(formatPos(x, y))
+        obstacles.add(formatPos([x, y]))
       }
     })
   })
@@ -129,21 +129,21 @@ export const part2 = (input: string) => {
   intialRunPositions.forEach(pos => {
     const [x, y] = parsePos(pos)
 
-    if ((guard.x === x && guard.y === y) || obstacles.has(formatPos(x, y))) {
+    if ((guard.x === x && guard.y === y) || obstacles.has(formatPos([x, y]))) {
       return
     }
 
     let isOnMap = true
     let isInLoop = false
     let guardCopy: Guard = { ...guard }
-    const obstaclesCopy: Set<string> = new Set(obstacles).add(formatPos(x, y))
+    const obstaclesCopy: Set<string> = new Set(obstacles).add(formatPos([x, y]))
     const guardPositions: Set<string> = new Set(guardToString(guard))
 
     while (isOnMap && !isInLoop) {
       guardCopy = moveGuard(guardCopy, obstaclesCopy)
       isOnMap = isGuardOnMap(guardCopy, mapSize) // is the guard still on the map
       isInLoop = guardPositions.has(guardToString(guardCopy)) // has the guard been here before
-      isInLoop && loopPositions.add(formatPos(x, y)) // if so, add to possible loop positions
+      isInLoop && loopPositions.add(formatPos([x, y])) // if so, add to possible loop positions
       guardPositions.add(guardToString(guardCopy)) // keep track of guard position history
     }
   })

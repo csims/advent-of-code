@@ -8,4 +8,4 @@ export const isInBounds = ([x, y]: number[], [mapX, mapY]: number[]) => {
 
 export const parsePos = (p: string) => p.split('|').map(Number)
 
-export const formatPos = (x: number, y: number) => `${x}|${y}`
+export const formatPos = ([x, y]: number[]) => `${x}|${y}`
