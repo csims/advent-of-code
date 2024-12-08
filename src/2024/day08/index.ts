@@ -75,6 +75,13 @@ const permutations = (positions: number[][]) => {
 
 /**
  * Part 1:
+ * A map has a number of antennas of different frequencies (marked by
+ * different characters). For any two antennas of the same frequency,
+ * they have an antinode that is twice as far away from the first
+ * antenna as the second antenna. Locations of antinodes may overlap other
+ * antennas on the map.
+ * Find the number of points on the map that contain an antinode of any
+ * frequency.
  */
 export const part1 = (input: string) => {
   const lines = parseLines(input)
@@ -97,6 +104,10 @@ export const part1 = (input: string) => {
 
 /**
  * Part 2:
+ * Part 1, but each pair of same-frequency antennas has a number of harmonic
+ * antinodes that are all along the line formed by those two antennas.
+ * Find the number of points on the map that contain harmonic antinodes of any
+ * frequency.
  */
 export const part2 = (input: string) => {
   const lines = parseLines(input)
