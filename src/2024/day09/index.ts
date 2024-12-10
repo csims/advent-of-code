@@ -1,6 +1,6 @@
 // https://adventofcode.com/2024/day/9
 
-import { sum } from '../../utils/array'
+import { range, sum } from '../../utils/array'
 import { parseLines } from '../../utils/helpers'
 
 type Chunk = {
@@ -13,10 +13,17 @@ type File = Chunk & {
 }
 
 const computeChecksum = (blocks: string[]) => {
-  // const values = blocks.filter(b => b !== '.').map((b, i) => Number(b) * i)
-  // return sum(values)
   return blocks.reduce((sum, curr, i) => {
     return curr === '.' ? sum : sum + Number(curr) * i
+  }, 0)
+}
+
+const computeChecksumFromFiles = (files: File[]) => {
+  return files.reduce((acc, curr) => {
+    const currProduct = range(curr.start, curr.start + curr.len).map(
+      idx => idx * curr.val
+    )
+    return acc + sum(currProduct)
   }, 0)
 }
 
@@ -58,16 +65,6 @@ const moveBlocks = (_blocks: string[]) => {
   return blocks
 }
 
-const getFreeSpace = (blocks: string[]): Chunk[] => {
-  const thisisstupid = blocks.map(b => (b !== '.' ? ' ' : b)).join('')
-  const freeSpaceMatches = [...thisisstupid.matchAll(/\.+/g)]
-
-  return freeSpaceMatches.map(m => ({
-    start: m.index,
-    len: m[0].length
-  }))
-}
-
 const mapBlocks = (blocks: string[]) => {
   const fileMap: Record<string, Chunk> = {}
 
@@ -94,25 +91,36 @@ const mapBlocks = (blocks: string[]) => {
   return files
 }
 
-const moveFiles = (files: File[], blocks: string[]) => {
+const mapFreeSpace = (blocks: string[]): Chunk[] => {
+  const thisisstupid = blocks.map(b => (b !== '.' ? ' ' : b)).join('')
+  const freeSpaceMatches = [...thisisstupid.matchAll(/\.+/g)]
+
+  return freeSpaceMatches.map(m => ({
+    start: m.index,
+    len: m[0].length
+  }))
+}
+
+const moveFiles = (files: File[], freeSpace: Chunk[]) => {
   for (let i = files.length - 1; i >= 0; i -= 1) {
     const file = files[i]
-    const freeSpace = getFreeSpace(blocks)
-    const firstFree = freeSpace.find(
+    const firstFreeIdx = freeSpace.findIndex(
       free => free.len >= files[i].len && free.start < files[i].start
     )
+    const firstFree = firstFreeIdx > -1 && freeSpace[firstFreeIdx]
 
     if (firstFree) {
-      blocks.splice(
-        firstFree.start,
-        file.len,
-        ...new Array(file.len).fill(file.val.toString())
-      )
-      blocks.splice(file.start, file.len, ...new Array(file.len).fill('.'))
+      file.start = firstFree.start
+      firstFree.start += file.len
+      firstFree.len -= file.len
+
+      if (firstFree.len <= 0) {
+        freeSpace.splice(firstFreeIdx, 1)
+      }
     }
   }
 
-  return blocks
+  return files
 }
 
 /**
@@ -132,6 +140,7 @@ export const part2 = (input: string) => {
   const diskMap = parseLines(input)[0]
   const blocks = parseDiskMap(diskMap)
   const files = mapBlocks(blocks)
-  const movedFiles = moveFiles(files, blocks)
-  return computeChecksum(movedFiles)
+  const freeSpace = mapFreeSpace(blocks)
+  const movedFiles = moveFiles(files, freeSpace)
+  return computeChecksumFromFiles(movedFiles)
 }
