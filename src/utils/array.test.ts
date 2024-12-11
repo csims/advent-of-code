@@ -1,4 +1,4 @@
-import { countOccurrences, product, range, sum, unzip, zip } from './array'
+import { at, countOccurrences, product, range, sum, unzip, zip } from './array'
 
 test('sum', () => {
   expect(sum([])).toEqual(0)
@@ -52,4 +52,11 @@ test('range', () => {
   expect(range(0, 5)).toEqual([0, 1, 2, 3, 4])
   expect(range(1, 5)).toEqual([1, 2, 3, 4])
   expect(() => range(0, Number.NaN)).toThrow()
+})
+
+test('at', () => {
+  expect(at([1, 2, 3], 0)).toEqual(1)
+  expect(at([1, 2, 3], 2)).toEqual(3)
+  expect(() => at([1, 2, 3], 3)).toThrow()
+  expect(() => at([1, 2, 3], -1)).toThrow()
 })

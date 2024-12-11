@@ -1,7 +1,13 @@
-import { formatPos, getGridSize, isInBounds, parsePos } from './grid'
+import { formatPos, getAtPos, getGridSize, isInBounds, parsePos } from './grid'
 
 test('getGridSize', () => {
   expect(getGridSize(['....', '....', '....'])).toEqual([4, 3])
+  expect(
+    getGridSize([
+      [1, 2, 3],
+      [4, 5, 6]
+    ])
+  ).toEqual([3, 2])
 })
 
 test('isInBounds', () => {
@@ -10,6 +16,27 @@ test('isInBounds', () => {
   expect(isInBounds([5, 4], [5, 4])).toBe(false)
   expect(isInBounds([0, 0], [0, 0])).toBe(false)
   expect(isInBounds([], [])).toBe(false)
+})
+
+test('getAtPos', () => {
+  expect(
+    getAtPos(
+      [
+        [1, 2, 3],
+        [4, 5, 6]
+      ],
+      [1, 0]
+    )
+  ).toEqual(2)
+  expect(() =>
+    getAtPos(
+      [
+        [1, 2, 3],
+        [4, 5, 6]
+      ],
+      [3, 3]
+    )
+  ).toThrow()
 })
 
 test('parsePos', () => {

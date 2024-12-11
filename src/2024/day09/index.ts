@@ -125,6 +125,13 @@ const moveFiles = (files: File[], freeSpace: Chunk[]) => {
 
 /**
  * Part 1:
+ * Numbers in a disk map alternate between number of blocks taken up by a file
+ * and number of blocks that are free space. Each file has an ID which is based
+ * on the order of the files in the disk map, starting at 0.
+ * Expand the disk map, then move the file blocks one at a time from the
+ * rightmost position into the leftmost free block to compact the files.
+ * Return the checksum, which is the sum of the position of each file block
+ * multiplied by the file ID it contains.
  */
 export const part1 = (input: string) => {
   const diskMap = parseLines(input)[0]
@@ -135,6 +142,10 @@ export const part1 = (input: string) => {
 
 /**
  * Part 2:
+ * Part 1, but instead of moving files one block at a time, keep files together
+ * without splitting up their blocks (i.e. only move into free space large
+ * enough to accommodate the entire file). Only take one pass, starting with
+ * the rightmost file. Return the checksum again.
  */
 export const part2 = (input: string) => {
   const diskMap = parseLines(input)[0]

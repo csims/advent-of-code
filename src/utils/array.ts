@@ -39,3 +39,10 @@ export const range = (start: number, stop: number) => {
   const len = stop - start
   return Array.from(Array(len).keys()).map(x => x + start)
 }
+
+export const at = <T>(array: T[], idx: number): T => {
+  if (idx > array.length - 1 || idx < 0) {
+    throw new Error(`${idx} isn't a valid index, try again?`)
+  }
+  return array[idx]
+}
