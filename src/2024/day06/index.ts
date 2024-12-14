@@ -1,6 +1,6 @@
 // https://adventofcode.com/2024/day/6
 
-import { formatPos, isInBounds, parsePos } from '../../utils/grid'
+import { formatPos, getGridSize, isInBounds, parsePos } from '../../utils/grid'
 import { parseLines } from '../../utils/helpers'
 
 const guardHeadings = ['>', 'v', '<', '^']
@@ -16,10 +16,6 @@ const guardVectors: Record<string, [number, number]> = {
   v: [0, 1],
   '<': [-1, 0],
   '^': [0, -1]
-}
-
-const getMapSize = (lines: string[]) => {
-  return [lines[0].length, lines.length]
 }
 
 const formatGuardPos = (guard: Guard) => formatPos([guard.x, guard.y])
@@ -105,7 +101,7 @@ const getAllGuardPositions = (
  */
 export const part1 = (input: string) => {
   const lines = parseLines(input)
-  const mapSize = getMapSize(lines)
+  const mapSize = getGridSize(lines)
   const { guard, obstacles } = parseMap(lines)
   const guardPositions = getAllGuardPositions(guard, obstacles, mapSize)
 
@@ -121,7 +117,7 @@ export const part1 = (input: string) => {
 export const part2 = (input: string) => {
   const lines = parseLines(input)
   const loopPositions: Set<string> = new Set()
-  const mapSize = getMapSize(lines)
+  const mapSize = getGridSize(lines)
   const { guard, obstacles } = parseMap(lines)
 
   const intialRunPositions = getAllGuardPositions(guard, obstacles, mapSize)
