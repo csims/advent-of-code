@@ -52,6 +52,16 @@ const solveIt = ({ a, b, prize }: ClawMachine): number => {
 
 /**
  * Part 1:
+ * You have a bunch of claw machines, each with Button A and Button B.
+ * Button A costs 3 tokens per press and moves the claw ax units along the
+ * x axis and ay units along the y axis. Button B costs 1 token per press and
+ * moves the claw bx units along the x axis and by units along the y axis. The
+ * prize is located at px, py. Not all claw machines are winnable.
+ * For each claw machine, if it is winnable, find the minimum amount of presses
+ * of Button A and Button B to reach the prize, and how many tokens it would
+ * cost.
+ * Return the minimum amount of tokens it would cost to win all winnable claw
+ * machines.
  */
 export const part1 = (input: string) => {
   const clawMachines = parseClawMachines(input)
@@ -61,6 +71,7 @@ export const part1 = (input: string) => {
 
 /**
  * Part 2:
+ * Same as part 1 but biggerer
  */
 export const part2 = (input: string) => {
   const clawMachines = parseClawMachines(input, true)
