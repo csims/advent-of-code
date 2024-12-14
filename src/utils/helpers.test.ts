@@ -1,4 +1,4 @@
-import { isDefined, parseLines, splitNumbers } from './helpers'
+import { isDefined, memoize, parseLines, splitNumbers } from './helpers'
 
 test('parseLines', () => {
   expect(parseLines('')).toEqual([])
@@ -19,4 +19,11 @@ test('isDefined', () => {
 
 test('splitNumbers', () => {
   expect(splitNumbers('0   1   2 3 foo')).toEqual([0, 1, 2, 3, Number.NaN])
+})
+
+test('memoize', () => {
+  const memoizedParseLines = memoize(parseLines)
+  expect(memoizedParseLines('\nhello\nworld\n')).toEqual(['hello', 'world'])
+  expect(memoizedParseLines('\nhello\nworld\n')).toEqual(['hello', 'world'])
+  expect(memoizedParseLines('\nhi\nthere\n')).toEqual(['hi', 'there'])
 })
